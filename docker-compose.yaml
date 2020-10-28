@@ -1,0 +1,45 @@
+version: '3.7'
+services:
+
+  app:
+    container_name: app
+    image: com.example/app
+    ports:
+     - 8080:8080
+
+  mysql:
+    container_name: mysql
+    image: mysql/mysql-server
+    volumes:
+     - data:/var/lib/mysql
+    ports:
+     - 3306:3306
+    environment:
+     - MYSQL_DATABASE="${MYSQL_DATABASE}"
+     - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
+     - MYSQL_USER="${MYSQL_USER}"
+     - MYSQL_PASSWORD="${MYSQL_USER}"
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin
+    environment:
+     - PMA_HOST=mysql
+     - PMA_PORT=3306
+     - PMA_ARBITRARY=1
+     - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
+     - MYSQL_USER="${MYSQL_USER}"
+     - MYSQL_PASSWORD="${MYSQL_USER}"
+    external_links:
+     - "mysql:${MYSQL_DATABASE}"
+    restart: always
+    ports:
+     - 9080:80
+    volumes:
+     - /sessions
+
+volumes:
+  data:
+    external:
+      name: "${MYSQL_DATABASE_VOLUME}"
+
