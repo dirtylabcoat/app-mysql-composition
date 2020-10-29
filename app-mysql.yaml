@@ -9,16 +9,17 @@ services:
 
   mysql:
     container_name: mysql
-    image: mysql/mysql-server
+    image: mysql/mysql-server:5.7
     volumes:
      - data:/var/lib/mysql
+     - ${MYSQL_DBINIT}:/docker-entrypoint-initdb.d
     ports:
      - 3306:3306
     environment:
-     - MYSQL_DATABASE="${MYSQL_DATABASE}"
-     - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
-     - MYSQL_USER="${MYSQL_USER}"
-     - MYSQL_PASSWORD="${MYSQL_USER}"
+     - MYSQL_DATABASE=${MYSQL_DATABASE}
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+     - MYSQL_USER=${MYSQL_USER}
+     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
   phpmyadmin:
     container_name: phpmyadmin
@@ -27,11 +28,11 @@ services:
      - PMA_HOST=mysql
      - PMA_PORT=3306
      - PMA_ARBITRARY=1
-     - MYSQL_ROOT_PASSWORD="${MYSQL_ROOT_PASSWORD}"
-     - MYSQL_USER="${MYSQL_USER}"
-     - MYSQL_PASSWORD="${MYSQL_USER}"
+     - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+     - MYSQL_USER=${MYSQL_USER}
+     - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     external_links:
-     - "mysql:${MYSQL_DATABASE}"
+     - mysql:${MYSQL_DATABASE}
     restart: always
     ports:
      - 9080:80
@@ -41,5 +42,5 @@ services:
 volumes:
   data:
     external:
-      name: "${MYSQL_DATABASE_VOLUME}"
+      name: ${MYSQL_DATABASE_VOLUME}
 

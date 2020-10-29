@@ -1,6 +1,8 @@
+export MYSQL_HOST=mysql
 export MYSQL_DATABASE=mydb
-export MYSQL_ROOT_PASSWORD=secret
-export MYSQL_USER=user
-export MYSQL_PASSWORD=password
+export MYSQL_ROOT_PASSWORD=1234
+export MYSQL_USER=groot
+export MYSQL_PASSWORD=1234
 export MYSQL_DATABASE_VOLUME=dbvol
+export MYSQL_DBINIT=$(pwd)/dbinit
 
